@@ -12,7 +12,7 @@ COPY start.sh /app/start.sh
 RUN chmod +x /app/start.sh
 
 # Expose port 8080 (nginx will listen on this)
-EXPOSE 8080
+EXPOSE 3000
 
 # Use our start script
 CMD ["/app/start.sh"]
