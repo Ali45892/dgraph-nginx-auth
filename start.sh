@@ -6,14 +6,14 @@ sed -i "s/PLACEHOLDER_API_KEY/${API_KEY:-railway-dgraph-api-key-2025}/g" /app/ng
 # Start nginx in background
 nginx -c /app/nginx.conf &
 
-# Create data directory
-mkdir -p /data
+# Create data directory (use the mounted volume path)
+mkdir -p /dgraph
 
 # Start DGraph Zero in background
-dgraph zero --wal /data/zw --my=0.0.0.0:5080 --replicas=1 &
+dgraph zero --wal /dgraph/zw --my=0.0.0.0:5080 --replicas=1 &
 
 # Wait for Zero to start
 sleep 15
 
 # Start DGraph Alpha on internal port 8081 (nginx will proxy from 8080)
-dgraph alpha --postings /data/p --wal /data/w --zero=localhost:5080 --port_offset=1
+dgraph alpha --postings /dgraph/p --wal /dgraph/w --zero=localhost:5080 --port_offset=1
